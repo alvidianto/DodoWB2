@@ -3,97 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DodoWB Shared V2.4</title>
+    <title>DodoWB Shared V2.5</title>
     <style>
-        :root { --primary: #3366cc; --bg: #ffffff; --text: #202122; --card: #f8f9fa; --border: #a2a9b1; }
-        @media (prefers-color-scheme: dark) { :root { --bg: #1a1a1a; --text: #f0f0f0; --card: #2d2d2d; --border: #444; } }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; padding-bottom: 30px;}
-        
-        .header { background: var(--bg); padding: 15px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo { font-size: 22px; font-weight: bold; color: var(--primary); }
-        .logo span { font-weight: 300; color: var(--text); font-size: 16px;}
-        
-        .container { max-width: 600px; margin: auto; padding: 15px; }
-        
-        /* TOMBOL SAKTI KE FORM */
-        .btn-add { 
-            background: #28a745; color: white; display: block; text-align: center; 
-            padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s;
+        /* TEMA TERANG (DEFAULT) */
+        :root { 
+            --primary: #3366cc; 
+            --bg: #f4f7f6; 
+            --text: #202122; 
+            --card: #ffffff; 
+            --border: #e0e0e0; 
+            --shadow: 0 4px 6px rgba(0,0,0,0.05);
+            --date: #888888;
         }
-        .btn-add:hover { transform: scale(1.02); background: #218838; }
+        
+        /* TEMA GELAP (DARK MODE) */
+        body.dark-mode { 
+            --primary: #5c8ce6; 
+            --bg: #121212; 
+            --text: #e0e0e0; 
+            --card: #1e1e1e; 
+            --border: #333333; 
+            --shadow: 0 4px 6px rgba(0,0,0,0.3);
+            --date: #aaaaaa;
+        }
 
-        .search-box { width: 100%; padding: 12px 20px; border-radius: 25px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 20px; outline: none; box-sizing: border-box; font-size: 16px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; padding-bottom: 40px; }
+        
+        .header { background: var(--card); padding: 15px 20px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); transition: background 0.3s; }
+        .logo { font-size: 22px; font-weight: bold; color: var(--primary); margin: 0; }
+        .logo span { font-weight: 300; font-size: 14px; color: var(--text); }
+        
+        /* TOMBOL DARK MODE */
+        .btn-theme { background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; color: var(--text); }
+
+        .container { max-width: 650px; margin: auto; padding: 20px 15px; }
+        
+        .btn-add { 
+            background: linear-gradient(135deg, #28a745, #218838); color: white; display: block; text-align: center; 
+            padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); transition: transform 0.2s; font-size: 16px;
+        }
+        .btn-add:hover { transform: translateY(-2px); }
+
+        .search-box { width: 100%; padding: 14px 20px; border-radius: 25px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 25px; outline: none; box-sizing: border-box; font-size: 16px; box-shadow: var(--shadow); transition: 0.3s; }
+        .search-box:focus { border-color: var(--primary); }
         
         .wiki-list { list-style: none; padding: 0; margin: 0; }
-        .wiki-item { background: var(--card); padding: 15px; margin-bottom: 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: 0.2s; }
-        .wiki-item:hover { transform: translateY(-2px); border-color: var(--primary); background: #eaf3ff; }
+        .wiki-item { background: var(--card); padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: all 0.2s ease; box-shadow: var(--shadow); }
+        .wiki-item:hover { transform: translateY(-3px); border-color: var(--primary); }
         
-        /* Gambar Kecil di List */
-        .thumb { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; border: 1px solid var(--border); }
-        .item-info b { font-size: 18px; display: block; color: var(--text); }
+        .thumb { width: 65px; height: 65px; border-radius: 10px; object-fit: cover; background: var(--bg); border: 1px solid var(--border); flex-shrink: 0; }
+        
+        .item-info { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+        .item-info b { font-size: 18px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+        .item-date { font-size: 12px; color: var(--date); display: flex; align-items: center; gap: 4px; }
         
         /* VIEWER HALAMAN */
-        .viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; }
-        .v-img { width: 100%; max-height: 300px; object-fit: cover; border-bottom: 2px solid var(--border); display: none;}
+        .viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; transition: 0.3s; }
+        .v-img { width: 100%; max-height: 350px; object-fit: cover; border-bottom: 3px solid var(--primary); display: none; }
         .v-content { max-width: 700px; margin: auto; padding: 20px; }
-        .btn-back { background: var(--card); border: 1px solid var(--border); padding: 8px 20px; border-radius: 20px; cursor: pointer; margin-bottom: 20px; color: var(--text); font-weight: bold; }
-        .v-title { font-size: 28px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 15px; margin-top: 0;}
-        .v-text { font-size: 18px; line-height: 1.8; white-space: pre-wrap; font-family: 'Georgia', serif; }
+        .btn-back { background: var(--card); border: 1px solid var(--border); padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-bottom: 20px; color: var(--text); font-weight: bold; box-shadow: var(--shadow); }
+        .v-title { font-size: 32px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 5px; margin-top: 0; color: var(--primary); }
+        .v-date-large { font-size: 14px; color: var(--date); margin-bottom: 20px; display: block; }
+        .v-text { font-size: 18px; line-height: 1.8; white-space: pre-wrap; }
         
-        #loading { text-align: center; margin-top: 50px; font-style: italic; opacity: 0.7; }
+        /* ANIMASI LOADING */
+        .loading-box { text-align: center; margin-top: 40px; color: var(--date); font-weight: bold; }
+        .skeleton { height: 80px; background: var(--card); border-radius: 12px; margin-bottom: 15px; animation: pulse 1.5s infinite; opacity: 0.7; }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">DodoWB <span>Shared V2.4</span></div>
+    <div class="logo">DodoWB <span>Shared V2.5</span></div>
+    <button class="btn-theme" id="btnTheme" onclick="toggleTema()">🌙</button>
 </div>
 
 <div class="container">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-add">➕ TAMBAH DATA BARU</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-add">➕ TULIS ARTIKEL BARU</a>
 
     <input type="text" id="cari" class="search-box" onkeyup="filter()" placeholder="🔍 Cari pengetahuan kelas...">
     
-    <div id="loading">Menghubungkan ke server Google Sheets... 📡</div>
+    <div id="loading" class="loading-box">
+        Memuat server perpustakaan... 📡
+        <div style="margin-top: 20px;">
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+            <div class="skeleton"></div>
+        </div>
+    </div>
     <ul id="listWiki" class="wiki-list"></ul>
 </div>
 
 <div id="view" class="viewer">
-    <img id="vFoto" class="v-img" src="" alt="Foto Artikel">
+    <img id="vFoto" class="v-img" src="" alt="Cover">
     <div class="v-content">
         <button class="btn-back" onclick="tutup()">← Kembali</button>
         <h1 id="vJdl" class="v-title"></h1>
+        <span id="vWaktu" class="v-date-large"></span>
         <div id="vIsi" class="v-text"></div>
     </div>
 </div>
 
 <script>
-    // LINK CSV KHUSUS DARI GOOGLE SHEETS JAWABAN LU
     const URL_CSV = "https://docs.google.com/spreadsheets/d/16Mh5Ql0LTROIsZgdTQtsWNZPcSAR86SvYJO863a5KkQ/export?format=csv"; 
-    
     let db = [];
 
-    // FUNGSI SUPER BUAT FIX LINK GAMBAR (GOOGLE DRIVE, DLL)
+    function toggleTema() {
+        document.body.classList.toggle("dark-mode");
+        let isDark = document.body.classList.contains("dark-mode");
+        document.getElementById("btnTheme").innerText = isDark ? "☀️" : "🌙";
+        localStorage.setItem("temaDodo", isDark ? "dark" : "light");
+    }
+
+    if(localStorage.getItem("temaDodo") === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("btnTheme").innerText = "☀️";
+    }
+
     function fixLinkGambar(url) {
         if (!url) return "";
         url = url.trim();
-        
-        // Fix Link Google Drive Biasa
         if (url.includes("drive.google.com/file/d/")) {
             let id = url.split("/d/")[1].split("/")[0];
             return "https://drive.google.com/uc?export=view&id=" + id;
         }
-        
-        // Fix Link Google Drive Download
         if (url.includes("drive.google.com/uc?id=")) {
             return url.replace("export=download", "export=view");
         }
-
-        return url; // Link gambar biasa (.jpg/.png) gak perlu diubah
+        return url; 
     }
 
-    // FUNGSI PINTER BACA CSV (BIAR PARAGRAF GAK PISAH-PISAH)
+    function formatTanggal(tglString) {
+        if(!tglString) return "Waktu tidak diketahui";
+        try {
+            let d = new Date(tglString);
+            if(isNaN(d)) return tglString; 
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit' });
+        } catch(e) { return tglString; }
+    }
+
     function parseCSV(str) {
         let arr = [], quote = false;
         for (let row = col = c = 0; c < str.length; c++) {
@@ -113,26 +163,23 @@
         try {
             const response = await fetch(URL_CSV);
             const data = await response.text();
-            
-            // Pake parser pinter biar teks kucing kemarin gak kepotong
             const baris = parseCSV(data).slice(1); 
             
             db = baris.map(col => {
                 if (col.length < 3) return null;
-                
-                // Urutan kolom Google Form Jawaban: 0=Waktu, 1=Judul, 2=Foto, 3=Isi
                 return { 
+                    waktu: formatTanggal(col[0]), 
                     judul: col[1] ? col[1].trim() : "", 
-                    foto: fixLinkGambar(col[2]), // <--- INI KUNCI FIX GAMBARNYA
+                    foto: fixLinkGambar(col[2]), 
                     isi: col[3] ? col[3].trim() : "" 
                 };
-            }).filter(i => i && i.judul !== "");
+            }).filter(i => i && i.judul !== "").reverse(); 
             
             document.getElementById("loading").style.display = "none";
             render();
         } catch (e) { 
             console.error(e);
-            document.getElementById("loading").innerText = "Gagal mengambil data. Pastikan Sheets sudah dipublikasikan ke web."; 
+            document.getElementById("loading").innerHTML = "Gagal mengambil data. ❌<br>Cek koneksi atau status publikasi Sheets."; 
         }
     }
 
@@ -141,34 +188,41 @@
         list.innerHTML = "";
         
         if(db.length === 0) {
-            list.innerHTML = "<div style='text-align:center; color:#888; margin-top:20px;'>Library masih kosong. Ayo tambah artikel pertama!</div>";
+            list.innerHTML = "<div style='text-align:center; padding: 40px; color:#888;'>Library masih kosong.<br>Jadilah yang pertama menulis! ✍️</div>";
         }
 
         db.forEach((item, i) => {
-            // Cek apakah ada foto setelah di-fix
             const imgHtml = item.foto && item.foto.length > 10 ? 
-                `<img src="${item.foto}" class="thumb" onerror="this.src='https://via.placeholder.com/60?text=Error'">` : 
-                `<div class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">📖</div>`;
+                `<img src="${item.foto}" class="thumb" onerror="this.onerror=null; this.src='https://via.placeholder.com/65x65?text=🚫';">` : 
+                `<div class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:26px; background:var(--card);">📖</div>`;
             
-            list.innerHTML += `<li class="wiki-item" onclick="buka(${i})">${imgHtml}<b>${item.judul}</b></li>`;
+            list.innerHTML += `
+                <li class="wiki-item" onclick="buka(${i})">
+                    ${imgHtml}
+                    <div class="item-info">
+                        <b>${item.judul}</b>
+                        <span class="item-date">⏱️ ${item.waktu}</span>
+                    </div>
+                </li>`;
         });
     }
 
     function buka(i) {
         const fotoEl = document.getElementById("vFoto");
         document.getElementById("vJdl").innerText = db[i].judul;
+        document.getElementById("vWaktu").innerText = "Diposting pada: " + db[i].waktu;
         document.getElementById("vIsi").innerText = db[i].isi;
         
-        // Tampilkan foto besar di viewer kalau ada
         if(db[i].foto && db[i].foto.length > 10) { 
             fotoEl.src = db[i].foto; 
             fotoEl.style.display="block"; 
+            fotoEl.onerror = function() { this.style.display='none'; }; 
         } else {
             fotoEl.style.display="none"; 
         }
         
         document.getElementById("view").style.display = "block";
-        document.getElementById("view").scrollTop = 0; // Reset scroll ke atas
+        document.getElementById("view").scrollTop = 0; 
     }
 
     function tutup() { document.getElementById("view").style.display = "none"; }
@@ -176,11 +230,13 @@
     function filter() {
         let k = document.getElementById("cari").value.toLowerCase();
         document.querySelectorAll(".wiki-item").forEach(li => {
-            li.style.display = li.innerText.toLowerCase().includes(k) ? "flex" : "none";
+            let judul = li.querySelector('b').innerText.toLowerCase();
+            li.style.display = judul.includes(k) ? "flex" : "none";
         });
     }
     
-    ambilData(); // Jalankan otomatis
+    ambilData(); 
 </script>
 </body>
 </html>
+        
