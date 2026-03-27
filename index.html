@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DodoWB - Kelas Edition</title>
+    <style>
+        :root { --primary: #3366cc; --bg: #ffffff; --text: #202122; --card: #f8f9fa; }
+        body { font-family: sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+        .header { background: #fff; padding: 15px; border-bottom: 3px solid var(--primary); text-align: center; position: sticky; top: 0; z-index: 10;}
+        .container { padding: 15px; max-width: 600px; margin: auto; }
+        
+        /* TOMBOL SAKTI KE FORM LU */
+        .btn-add { 
+            background: #28a745; color: white; display: block; text-align: center; 
+            padding: 15px; border-radius: 10px; text-decoration: none; font-weight: bold; margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .wiki-item { background: var(--card); padding: 15px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; display: flex; align-items: center; gap: 15px; cursor: pointer; }
+        .thumb { width: 50px; height: 50px; border-radius: 5px; object-fit: cover; background: #ccc; }
+        
+        .viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 100; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+<div class="header"><b>DodoWB Shared V6.0</b></div>
+
+<div class="container">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-add">➕ TAMBAH IDE / DATA BARU</a>
+
+    <input type="text" id="cari" onkeyup="filter()" placeholder="🔍 Cari data..." style="width:100%; padding:10px; border-radius:20px; border:1px solid #ccc; margin-bottom:20px; box-sizing: border-box;">
+    
+    <div id="loading" style="text-align:center;">Lagi narik data dari server... 📡</div>
+    <ul id="listWiki" style="list-style:none; padding:0;"></ul>
+</div>
+
+<div id="view" class="viewer">
+    <button onclick="document.getElementById('view').style.display='none'" style="padding:10px; margin-bottom:20px; border-radius:10px; border:1px solid #ccc; background:#eee;">← Kembali</button>
+    <img id="vFoto" src="" style="width:100%; border-radius:10px; display:none; margin-bottom:15px;">
+    <h1 id="vJdl" style="margin-top:0;"></h1>
+    <p id="vIsi" style="white-space: pre-wrap; line-height: 1.6;"></p>
+</div>
+
+<script>
+    // LINK CSV LU YANG UDAH GUE SESUAIIN
+    const URL_CSV = "https://docs.google.com/spreadsheets/d/16Mh5Ql0LTROIsZgdTQtsWNZPcSAR86SvYJO863a5KkQ/export?format=csv"; 
+    
+    let db = [];
+
+    async function ambilData() {
+        try {
+            const response = await fetch(URL_CSV);
+            const data = await response.text();
+            
+            // Ngepotong baris judul tabel
+            const baris = data.split("\n").slice(1); 
+            
+            db = baris.map(line => {
+                const col = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                
+                // Urutan kolom Google Form: 0=Waktu, 1=Judul, 2=Foto, 3=Isi
+                return { 
+                    judul: col[1] ? col[1].replace(/"/g, "").trim() : "", 
+                    foto: col[2] ? col[2].replace(/"/g, "").trim() : "", 
+                    isi: col[3] ? col[3].replace(/"/g, "").trim() : "" 
+                };
+            }).filter(i => i.judul !== "");
+            
+            document.getElementById("loading").style.display = "none";
+            render();
+        } catch (e) { 
+            document.getElementById("loading").innerText = "Belum ada data atau Sheets belum dipublikasikan ke web."; 
+        }
+    }
+
+    function render() {
+        const list = document.getElementById("listWiki");
+        list.innerHTML = "";
+        
+        if(db.length === 0) {
+            list.innerHTML = "<div style='text-align:center; color:#888;'>Belum ada artikel. Klik tombol hijau untuk menambah!</div>";
+        }
+
+        db.forEach((item, i) => {
+            const img = item.foto && item.foto.length > 5 ? `<img src="${item.foto}" class="thumb">` : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;">📖</div>`;
+            list.innerHTML += `<li class="wiki-item" onclick="buka(${i})">${img}<b>${item.judul}</b></li>`;
+        });
+    }
+
+    function buka(i) {
+        document.getElementById("vJdl").innerText = db[i].judul;
+        document.getElementById("vIsi").innerText = db[i].isi;
+        
+        if(db[i].foto && db[i].foto.length > 5) { 
+            document.getElementById("vFoto").src = db[i].foto; 
+            document.getElementById("vFoto").style.display="block"; 
+        } else {
+            document.getElementById("vFoto").style.display="none"; 
+        }
+        
+        document.getElementById("view").style.display = "block";
+    }
+
+    function filter() {
+        let k = document.getElementById("cari").value.toLowerCase();
+        document.querySelectorAll(".wiki-item").forEach(li => {
+            li.style.display = li.innerText.toLowerCase().includes(k) ? "flex" : "none";
+        });
+    }
+    ambilData();
+</script>
+</body>
+</html>
