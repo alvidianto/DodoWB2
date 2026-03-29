@@ -2,107 +2,140 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DodoWB Shared V2.5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DodoWB V.0.1.09</title>
     <style>
-        /* TEMA TERANG (DEFAULT) */
         :root { 
-            --primary: #3366cc; 
-            --bg: #f4f7f6; 
-            --text: #202122; 
+            --primary: #4361ee; 
+            --bg: #fdfdfd; 
+            --text: #1a1a1a; 
             --card: #ffffff; 
-            --border: #e0e0e0; 
-            --shadow: 0 4px 6px rgba(0,0,0,0.05);
-            --date: #888888;
+            --border: #f0f0f0; 
+            --date: #7d7d7d;
         }
         
-        /* TEMA GELAP (DARK MODE) */
         body.dark-mode { 
-            --primary: #5c8ce6; 
-            --bg: #121212; 
-            --text: #e0e0e0; 
-            --card: #1e1e1e; 
-            --border: #333333; 
-            --shadow: 0 4px 6px rgba(0,0,0,0.3);
-            --date: #aaaaaa;
+            --primary: #4cc9f0; 
+            --bg: #0f1115; 
+            --text: #e8e8e8; 
+            --card: #1c1f26; 
+            --border: #2d333b; 
+            --date: #999999;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: var(--bg); color: var(--text); transition: background 0.3s, color 0.3s; padding-bottom: 40px; }
-        
-        .header { background: var(--card); padding: 15px 20px; border-bottom: 3px solid var(--primary); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow); transition: background 0.3s; }
-        .logo { font-size: 22px; font-weight: bold; color: var(--primary); margin: 0; }
-        .logo span { font-weight: 300; font-size: 14px; color: var(--text); }
-        
-        /* TOMBOL DARK MODE */
-        .btn-theme { background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; color: var(--text); }
-
-        .container { max-width: 650px; margin: auto; padding: 20px 15px; }
-        
-        .btn-add { 
-            background: linear-gradient(135deg, #28a745, #218838); color: white; display: block; text-align: center; 
-            padding: 15px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3); transition: transform 0.2s; font-size: 16px;
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; 
+            margin: 0; background: var(--bg); color: var(--text); 
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); padding-bottom: 20px; 
+            overflow-x: hidden;
         }
-        .btn-add:hover { transform: translateY(-2px); }
+        
+        .header { 
+            background: var(--card); padding: 15px 20px; 
+            border-bottom: 1px solid var(--border); position: sticky; 
+            top: 0; z-index: 100; display: flex; justify-content: space-between; 
+            align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .logo { font-size: 19px; font-weight: 800; color: var(--text); }
+        .v-badge { font-size: 10px; opacity: 0.4; font-weight: 500; }
+        
+        .controls { display: flex; gap: 10px; }
+        .btn-round { 
+            width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--border); 
+            background: var(--card); color: var(--text); cursor: pointer; 
+            display: flex; align-items: center; justify-content: center; font-size: 18px; 
+            transition: 0.2s;
+        }
 
-        .search-box { width: 100%; padding: 14px 20px; border-radius: 25px; border: 1px solid var(--border); background: var(--card); color: var(--text); margin-bottom: 25px; outline: none; box-sizing: border-box; font-size: 16px; box-shadow: var(--shadow); transition: 0.3s; }
-        .search-box:focus { border-color: var(--primary); }
+        .container { max-width: 600px; margin: auto; padding: 15px; }
         
-        .wiki-list { list-style: none; padding: 0; margin: 0; }
-        .wiki-item { background: var(--card); padding: 15px; margin-bottom: 15px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; cursor: pointer; transition: all 0.2s ease; box-shadow: var(--shadow); }
-        .wiki-item:hover { transform: translateY(-3px); border-color: var(--primary); }
+        .search-box { 
+            width: 100%; padding: 12px 15px 12px 42px; border-radius: 12px; 
+            border: 1px solid var(--border); background: var(--card); 
+            color: var(--text); box-sizing: border-box; font-size: 16px; outline: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.01);
+        }
+        .s-icon { position: absolute; left: 15px; top: 12px; opacity: 0.3; font-size: 18px; }
+
+        .btn-main { 
+            background: var(--primary); color: white; display: flex; 
+            align-items: center; justify-content: center; gap: 10px;
+            padding: 16px; border-radius: 12px; text-decoration: none; 
+            font-weight: 700; margin-bottom: 25px; font-size: 15px;
+            box-shadow: 0 10px 20px -5px rgba(67, 97, 238, 0.3);
+        }
+
+        .wiki-item { 
+            background: var(--card); padding: 14px; margin-bottom: 14px; 
+            border-radius: 16px; border: 1px solid var(--border); 
+            display: flex; gap: 16px; cursor: pointer; transition: 0.2s;
+        }
+        .wiki-item:active { transform: scale(0.97); background: var(--border); }
+        .thumb { width: 85px; height: 85px; border-radius: 12px; object-fit: cover; background: var(--bg); flex-shrink: 0; border: 1px solid var(--border); }
         
-        .thumb { width: 65px; height: 65px; border-radius: 10px; object-fit: cover; background: var(--bg); border: 1px solid var(--border); flex-shrink: 0; }
+        .item-info { flex: 1; min-width: 0; }
+        .cat-tag { font-size: 9px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 6px; display: block; }
+        .item-info b { font-size: 17px; display: block; margin-bottom: 6px; line-height: 1.3; }
+        .item-date { font-size: 12px; color: var(--date); }
         
-        .item-info { display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-        .item-info b { font-size: 18px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
-        .item-date { font-size: 12px; color: var(--date); display: flex; align-items: center; gap: 4px; }
-        
-        /* VIEWER HALAMAN */
-        .viewer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 200; overflow-y: auto; transition: 0.3s; }
-        .v-img { width: 100%; max-height: 350px; object-fit: cover; border-bottom: 3px solid var(--primary); display: none; }
-        .v-content { max-width: 700px; margin: auto; padding: 20px; }
-        .btn-back { background: var(--card); border: 1px solid var(--border); padding: 10px 20px; border-radius: 20px; cursor: pointer; margin-bottom: 20px; color: var(--text); font-weight: bold; box-shadow: var(--shadow); }
-        .v-title { font-size: 32px; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 5px; margin-top: 0; color: var(--primary); }
-        .v-date-large { font-size: 14px; color: var(--date); margin-bottom: 20px; display: block; }
-        .v-text { font-size: 18px; line-height: 1.8; white-space: pre-wrap; }
-        
-        /* ANIMASI LOADING */
-        .loading-box { text-align: center; margin-top: 40px; color: var(--date); font-weight: bold; }
-        .skeleton { height: 80px; background: var(--card); border-radius: 12px; margin-bottom: 15px; animation: pulse 1.5s infinite; opacity: 0.7; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        /* VIEWER AREA */
+        .viewer { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 200; overflow-y: auto; }
+        .v-header { position: sticky; top: 0; background: var(--card); padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .v-img-box { width: 100%; height: 300px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .v-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .v-body { max-width: 600px; margin: auto; padding: 25px 20px; }
+        .v-title { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .v-text { font-size: 17px; line-height: 1.8; white-space: pre-wrap; word-wrap: break-word; }
+
+        .skel { height: 110px; background: var(--card); border-radius: 16px; margin-bottom: 14px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="logo">DodoWB <span>Shared V2.5</span></div>
-    <button class="btn-theme" id="btnTheme" onclick="toggleTema()">🌙</button>
+    <div class="logo">DodoWB <span class="v-badge">V.0.1.09</span></div>
+    <div class="controls">
+        <button class="btn-round" onclick="ambilData()">🔄</button>
+        <button class="btn-round" id="btnTheme" onclick="toggleTema()">🌙</button>
+    </div>
 </div>
 
 <div class="container">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-add">➕ TULIS ARTIKEL BARU</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-main">
+        <span>+</span> Tambah Cerita Baru
+    </a>
 
-    <input type="text" id="cari" class="search-box" onkeyup="filter()" placeholder="🔍 Cari pengetahuan kelas...">
-    
-    <div id="loading" class="loading-box">
-        Memuat server perpustakaan... 📡
-        <div style="margin-top: 20px;">
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-            <div class="skeleton"></div>
-        </div>
+    <div style="position:relative; margin-bottom:20px;">
+        <span class="s-icon">🔍</span>
+        <input type="text" id="cari" class="search-box" onkeyup="filter()" placeholder="Cari judul cerita...">
     </div>
-    <ul id="listWiki" class="wiki-list"></ul>
+    
+    <div id="loading">
+        <div class="skel"></div>
+        <div class="skel"></div>
+    </div>
+    <ul id="listWiki" style="padding:0; list-style:none;"></ul>
 </div>
 
 <div id="view" class="viewer">
-    <img id="vFoto" class="v-img" src="" alt="Cover">
-    <div class="v-content">
-        <button class="btn-back" onclick="tutup()">← Kembali</button>
+    <div class="v-header">
+        <button onclick="tutup()" style="background:none; border:none; font-size:18px; color:var(--text); font-weight:bold; cursor:pointer;">✕ Tutup</button>
+        <button onclick="shareLink()" style="background:none; border:none; font-size:20px; color:var(--text); cursor:pointer;">🔗</button>
+    </div>
+    <div id="vImgContainer" class="v-img-box">
+        <img id="vFoto" class="v-img" src="">
+    </div>
+    <div class="v-body">
+        <div class="cat-tag">PUBLISHED CONTENT</div>
         <h1 id="vJdl" class="v-title"></h1>
-        <span id="vWaktu" class="v-date-large"></span>
+        <div id="vWaktu" style="color:var(--date); font-size:13px; margin-bottom:20px;"></div>
+        <hr style="border:0; border-top:1px solid var(--border); margin-bottom:25px;">
         <div id="vIsi" class="v-text"></div>
+        
+        <div style="padding:40px 0;">
+            <button onclick="tutup()" style="width:100%; padding:16px; border-radius:12px; border:1px solid var(--border); background:var(--card); color:var(--text); font-weight:700; cursor:pointer;">Kembali</button>
+        </div>
     </div>
 </div>
 
@@ -122,121 +155,81 @@
         document.getElementById("btnTheme").innerText = "☀️";
     }
 
-    function fixLinkGambar(url) {
-        if (!url) return "";
-        url = url.trim();
-        if (url.includes("drive.google.com/file/d/")) {
-            let id = url.split("/d/")[1].split("/")[0];
-            return "https://drive.google.com/uc?export=view&id=" + id;
-        }
-        if (url.includes("drive.google.com/uc?id=")) {
-            return url.replace("export=download", "export=view");
-        }
-        return url; 
-    }
-
-    function formatTanggal(tglString) {
-        if(!tglString) return "Waktu tidak diketahui";
-        try {
-            let d = new Date(tglString);
-            if(isNaN(d)) return tglString; 
-            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute:'2-digit' });
-        } catch(e) { return tglString; }
-    }
-
-    function parseCSV(str) {
-        let arr = [], quote = false;
-        for (let row = col = c = 0; c < str.length; c++) {
-            let cc = str[c], nc = str[c+1];
-            arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
-            if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
-            if (cc == '"') { quote = !quote; continue; }
-            if (cc == ',' && !quote) { ++col; continue; }
-            if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
-            if ((cc == '\n' || cc == '\r') && !quote) { ++row; col = 0; continue; }
-            arr[row][col] += cc;
-        }
-        return arr;
-    }
-
     async function ambilData() {
+        document.getElementById("loading").style.display = "block";
         try {
-            const response = await fetch(URL_CSV);
-            const data = await response.text();
-            const baris = parseCSV(data).slice(1); 
+            const res = await fetch(URL_CSV + "&nocache=" + Date.now());
+            const text = await res.text();
+            const rows = text.split("\n").slice(1);
             
-            db = baris.map(col => {
-                if (col.length < 3) return null;
-                return { 
-                    waktu: formatTanggal(col[0]), 
-                    judul: col[1] ? col[1].trim() : "", 
-                    foto: fixLinkGambar(col[2]), 
-                    isi: col[3] ? col[3].trim() : "" 
-                };
-            }).filter(i => i && i.judul !== "").reverse(); 
-            
-            document.getElementById("loading").style.display = "none";
+            db = rows.map(row => {
+                const col = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return {
+                    waktu: (col[0] || "").replace(/"/g, "").trim(),
+                    judul: (col[1] || "").replace(/"/g, "").trim(),
+                    foto: (col[2] || "").replace(/"/g, "").replace("file/d/", "uc?export=view&id=").split("/view")[0].trim(),
+                    isi: (col[3] || "").replace(/"/g, "").trim()
+                }
+            }).filter(i => i.judul !== "").reverse();
+
             render();
-        } catch (e) { 
-            console.error(e);
-            document.getElementById("loading").innerHTML = "Gagal mengambil data. ❌<br>Cek koneksi atau status publikasi Sheets."; 
+            document.getElementById("loading").style.display = "none";
+        } catch (e) {
+            document.getElementById("loading").innerHTML = "<p style='text-align:center;'>Gagal memuat data dari Spreadsheet.</p>";
         }
     }
 
     function render() {
         const list = document.getElementById("listWiki");
-        list.innerHTML = "";
-        
-        if(db.length === 0) {
-            list.innerHTML = "<div style='text-align:center; padding: 40px; color:#888;'>Library masih kosong.<br>Jadilah yang pertama menulis! ✍️</div>";
-        }
-
-        db.forEach((item, i) => {
-            const imgHtml = item.foto && item.foto.length > 10 ? 
-                `<img src="${item.foto}" class="thumb" onerror="this.onerror=null; this.src='https://via.placeholder.com/65x65?text=🚫';">` : 
-                `<div class="thumb" style="display:flex;align-items:center;justify-content:center;font-size:26px; background:var(--card);">📖</div>`;
-            
-            list.innerHTML += `
-                <li class="wiki-item" onclick="buka(${i})">
-                    ${imgHtml}
-                    <div class="item-info">
-                        <b>${item.judul}</b>
-                        <span class="item-date">⏱️ ${item.waktu}</span>
-                    </div>
-                </li>`;
-        });
+        list.innerHTML = db.map((item, i) => `
+            <li class="wiki-item" onclick="buka(${i})">
+                ${item.foto.length > 10 ? `<img src="${item.foto}" class="thumb">` : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;background:var(--border);font-size:28px;">📄</div>`}
+                <div class="item-info">
+                    <span class="cat-tag">STORY</span>
+                    <b>${item.judul}</b>
+                    <span class="item-date">📅 ${item.waktu.split(' ')[0]}</span>
+                </div>
+            </li>
+        `).join('');
     }
 
     function buka(i) {
-        const fotoEl = document.getElementById("vFoto");
-        document.getElementById("vJdl").innerText = db[i].judul;
-        document.getElementById("vWaktu").innerText = "Diposting pada: " + db[i].waktu;
-        document.getElementById("vIsi").innerText = db[i].isi;
+        const item = db[i];
+        document.getElementById("vJdl").innerText = item.judul;
+        document.getElementById("vWaktu").innerText = "Dipublikasikan: " + item.waktu;
+        document.getElementById("vIsi").innerText = item.isi;
         
-        if(db[i].foto && db[i].foto.length > 10) { 
-            fotoEl.src = db[i].foto; 
-            fotoEl.style.display="block"; 
-            fotoEl.onerror = function() { this.style.display='none'; }; 
+        const f = document.getElementById("vFoto");
+        if(item.foto.length > 10) {
+            f.src = item.foto;
+            document.getElementById("vImgContainer").style.display = "flex";
         } else {
-            fotoEl.style.display="none"; 
+            document.getElementById("vImgContainer").style.display = "none";
         }
         
         document.getElementById("view").style.display = "block";
-        document.getElementById("view").scrollTop = 0; 
+        document.getElementById("view").scrollTo(0,0);
+        document.body.style.overflow = "hidden";
     }
 
-    function tutup() { document.getElementById("view").style.display = "none"; }
+    function tutup() { 
+        document.getElementById("view").style.display = "none"; 
+        document.body.style.overflow = "auto";
+    }
 
     function filter() {
         let k = document.getElementById("cari").value.toLowerCase();
         document.querySelectorAll(".wiki-item").forEach(li => {
-            let judul = li.querySelector('b').innerText.toLowerCase();
-            li.style.display = judul.includes(k) ? "flex" : "none";
+            li.style.display = li.innerText.toLowerCase().includes(k) ? "flex" : "none";
         });
     }
-    
-    ambilData(); 
+
+    function shareLink() {
+        const t = `DodoWB - ${document.getElementById("vJdl").innerText}\n\nBaca di: ${window.location.href}`;
+        navigator.share ? navigator.share({ text: t }) : (navigator.clipboard.writeText(t), alert("Link disalin"));
+    }
+
+    ambilData();
 </script>
 </body>
 </html>
-        
