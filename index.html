@@ -4,168 +4,219 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>DodoWB V.0.1.10</title>
+
     <style>
         :root { --primary: #4361ee; --bg: #fdfdfd; --text: #1a1a1a; --card: #ffffff; --border: #f0f0f0; --date: #7d7d7d; }
         body.dark-mode { --primary: #4cc9f0; --bg: #0f1115; --text: #e8e8e8; --card: #1c1f26; --border: #2d333b; --date: #999999; }
         body { font-family: -apple-system, sans-serif; margin: 0; background: var(--bg); color: var(--text); transition: 0.3s; padding-bottom: 20px; }
-        .header { background: var(--card); padding: 15px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+
+        .header {
+            background: var(--card);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .logo { font-size: 19px; font-weight: 800; }
         .v-badge { font-size: 10px; opacity: 0.5; }
+
         .container { max-width: 600px; margin: auto; padding: 15px; }
-        .search-box { width: 100%; padding: 12px 15px 12px 42px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); box-sizing: border-box; outline: none; }
-        .btn-main { background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; padding: 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
-        .wiki-item { background: var(--card); padding: 16px; margin-bottom: 12px; border-radius: 16px; border: 1px solid var(--border); display: flex; gap: 15px; cursor: pointer; }
-        .thumb { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; background: var(--bg); flex-shrink: 0; border: 1px solid var(--border); }
-        .item-info { flex: 1; min-width: 0; }
-        .item-info b { font-size: 17px; display: block; margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px 12px 42px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            outline: none;
+        }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .wiki-item {
+            background: var(--card);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: var(--bg);
+            border: 1px solid var(--border);
+        }
+
+        .item-info { flex: 1; }
+        .item-info b { font-size: 17px; display: block; margin-bottom: 4px; }
+
         .item-date { font-size: 12px; color: var(--date); }
-        .viewer { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 200; overflow-y: auto; }
-        .v-header { position: sticky; top: 0; background: var(--card); padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+
+        .viewer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 200;
+            overflow-y: auto;
+        }
+
+        .v-header {
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
         .v-body { max-width: 600px; margin: auto; padding: 20px; }
         .v-text { font-size: 17px; line-height: 1.8; white-space: pre-wrap; }
-        .skel { height: 100px; background: var(--card); border-radius: 16px; margin-bottom: 12px; animation: pulse 1.5s infinite; }
+
+        .skel {
+            height: 100px;
+            background: var(--card);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            animation: pulse 1.5s infinite;
+        }
+
         @keyframes pulse { 50% { opacity: 0.5; } }
     </style>
 </head>
+
 <body>
 
 <div class="header">
     <div class="logo">DodoWB <span class="v-badge">V.0.1.10</span></div>
     <div style="display:flex; gap:10px;">
-        <button onclick="ambilData()" style="background:none; border:1px solid var(--border); padding:8px; border-radius:8px; color:var(--text);">🔄</button>
-        <button id="btnTheme" onclick="toggleTema()" style="background:none; border:1px solid var(--border); padding:8px; border-radius:8px; color:var(--text);">🌙</button>
+        <button onclick="ambilData()">🔄</button>
+        <button onclick="toggleTema()">🌙</button>
     </div>
 </div>
 
 <div class="container">
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-main">+ Tambah Cerita</a>
-    <div style="position:relative; margin-bottom:20px;">
-        <span style="position:absolute; left:15px; top:12px; opacity:0.3;">🔍</span>
-        <input type="text" id="cari" class="search-box" onkeyup="filter()" placeholder="Cari judul...">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdI7-lqVoq9Vdt0x2l0r8v_vnrXiTsUG7cIoZtgFCBXUmF_Uw/viewform" target="_blank" class="btn-main">
+        + Tambah Cerita
+    </a>
+
+    <input type="text" id="cari" class="search-box" onkeyup="filter()" placeholder="Cari judul...">
+
+    <div id="loading">
+        <div class="skel"></div>
+        <div class="skel"></div>
     </div>
-    <div id="loading"><div class="skel"></div><div class="skel"></div></div>
+
     <ul id="listWiki" style="padding:0; list-style:none;"></ul>
 </div>
 
 <div id="view" class="viewer">
     <div class="v-header">
-        <button onclick="tutup()" style="background:none; border:none; font-size:16px; color:var(--text); font-weight:bold;">✕ Kembali</button>
-        <button onclick="shareLink()" style="background:none; border:none; font-size:18px;">🔗</button>
+        <button onclick="tutup()">✕ Kembali</button>
+        <button onclick="shareLink()">🔗</button>
     </div>
-    <div id="vImgContainer" style="width:100%; height:250px; background:#000; display:none; align-items:center; justify-content:center;">
-        <img id="vFoto" style="max-width:100%; max-height:100%; object-fit:contain;">
+
+    <div id="vImgContainer" style="display:none;">
+        <img id="vFoto" style="width:100%;">
     </div>
+
     <div class="v-body">
-        <h1 id="vJdl" style="margin:0 0 10px 0;"></h1>
-        <div id="vWaktu" style="color:var(--date); font-size:13px; margin-bottom:20px;"></div>
+        <h1 id="vJdl"></h1>
+        <div id="vWaktu"></div>
         <div id="vIsi" class="v-text"></div>
-        <button onclick="tutup()" style="width:100%; margin-top:30px; padding:15px; border-radius:10px; border:1px solid var(--border); background:var(--card); color:var(--text);">Tutup</button>
     </div>
 </div>
 
 <script>
-    const URL_CSV = "https://docs.google.com/spreadsheets/d/16Mh5Ql0LTROIsZgdTQtsWNZPcSAR86SvYJO863a5KkQ/export?format=csv";
-    let db = [];
+const URL_JSON = "https://docs.google.com/spreadsheets/d/16Mh5Ql0LTROIsZgdTQtsWNZPcSAR86SvYJO863a5KkQ/gviz/tq?tqx=out:json";
+let db = [];
 
-    function toggleTema() {
-        document.body.classList.toggle("dark-mode");
-        localStorage.setItem("temaDodo", document.body.classList.contains("dark-mode") ? "dark" : "light");
-    }
-    if(localStorage.getItem("temaDodo") === "dark") document.body.classList.add("dark-mode");
+function toggleTema() {
+    document.body.classList.toggle("dark-mode");
+}
 
-    // FUNGSI PARSER ANTI GAGAL
-    function parseCSV(str) {
-        const result = [];
-        let row = [];
-        let col = '';
-        let inQuotes = false;
+async function ambilData() {
+    document.getElementById("loading").style.display = "block";
 
-        for (let i = 0; i < str.length; i++) {
-            const char = str[i];
-            const nextChar = str[i + 1];
+    const res = await fetch(URL_JSON);
+    const text = await res.text();
 
-            if (char === '"' && inQuotes && nextChar === '"') {
-                col += '"'; i++;
-            } else if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                row.push(col); col = '';
-            } else if ((char === '\r' || char === '\n') && !inQuotes) {
-                if (col !== '' || row.length > 0) {
-                    row.push(col); result.push(row);
-                }
-                row = []; col = '';
-                if (char === '\r' && nextChar === '\n') i++;
-            } else {
-                col += char;
-            }
-        }
-        if (col !== '' || row.length > 0) { row.push(col); result.push(row); }
-        return result;
-    }
+    const json = JSON.parse(text.substring(47).slice(0, -2));
+    const rows = json.table.rows;
 
-    async function ambilData() {
-        document.getElementById("loading").style.display = "block";
-        try {
-            const res = await fetch(URL_CSV + "&nocache=" + Date.now());
-            const text = await res.text();
-            const rows = parseCSV(text).slice(1);
+    db = rows.map(r => ({
+        waktu: r.c[0]?.v || "",
+        judul: r.c[1]?.v || "",
+        foto: r.c[2]?.v || "",
+        isi: r.c[3]?.v || ""
+    })).reverse();
 
-            db = rows.map(col => ({
-                waktu: (col[0] || "").trim(),
-                judul: (col[1] || "").trim(),
-                foto: (col[2] || "").replace("file/d/", "uc?export=view&id=").split("/view")[0].trim(),
-                isi: (col[3] || "").trim()
-            })).filter(i => i.judul !== "").reverse();
+    render();
+    document.getElementById("loading").style.display = "none";
+}
 
-            render();
-            document.getElementById("loading").style.display = "none";
-        } catch (e) { console.error(e); }
-    }
+function render() {
+    const list = document.getElementById("listWiki");
+    list.innerHTML = db.map((item, i) => `
+        <li class="wiki-item" onclick="buka(${i})">
+            <div class="thumb">📄</div>
+            <div class="item-info">
+                <b>${item.judul}</b>
+                <span class="item-date">${item.waktu}</span>
+            </div>
+        </li>
+    `).join('');
+}
 
-    function render() {
-        const list = document.getElementById("listWiki");
-        list.innerHTML = db.map((item, i) => `
-            <li class="wiki-item" onclick="buka(${i})">
-                ${item.foto.length > 10 ? `<img src="${item.foto}" class="thumb">` : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;background:var(--border);">📄</div>`}
-                <div class="item-info">
-                    <span style="font-size:9px; color:var(--primary); font-weight:bold;">STORY</span>
-                    <b>${item.judul}</b>
-                    <span class="item-date">📅 ${item.waktu.split(' ')[0]}</span>
-                </div>
-            </li>
-        `).join('');
-    }
+function buka(i) {
+    const item = db[i];
+    document.getElementById("vJdl").innerText = item.judul;
+    document.getElementById("vWaktu").innerText = item.waktu;
+    document.getElementById("vIsi").innerText = item.isi;
 
-    function buka(i) {
-        const item = db[i];
-        document.getElementById("vJdl").innerText = item.judul;
-        document.getElementById("vWaktu").innerText = "Tgl: " + item.waktu;
-        document.getElementById("vIsi").innerText = item.isi;
-        const imgCont = document.getElementById("vImgContainer");
-        if(item.foto.length > 10) {
-            document.getElementById("vFoto").src = item.foto;
-            imgCont.style.display = "flex";
-        } else { imgCont.style.display = "none"; }
-        document.getElementById("view").style.display = "block";
-        document.body.style.overflow = "hidden";
-    }
+    document.getElementById("view").style.display = "block";
+}
 
-    function tutup() { document.getElementById("view").style.display = "none"; document.body.style.overflow = "auto"; }
+function tutup() {
+    document.getElementById("view").style.display = "none";
+}
 
-    function filter() {
-        let k = document.getElementById("cari").value.toLowerCase();
-        document.querySelectorAll(".wiki-item").forEach(li => {
-            li.style.display = li.innerText.toLowerCase().includes(k) ? "flex" : "none";
-        });
-    }
+function filter() {
+    let k = document.getElementById("cari").value.toLowerCase();
+    document.querySelectorAll(".wiki-item").forEach(li => {
+        li.style.display = li.innerText.toLowerCase().includes(k) ? "flex" : "none";
+    });
+}
 
-    function shareLink() {
-        const t = `DodoWB - ${document.getElementById("vJdl").innerText}\n${window.location.href}`;
-        navigator.share ? navigator.share({ text: t }) : alert("Link disalin");
-    }
+function shareLink() {
+    alert("Share belum aktif");
+}
 
-    ambilData();
+ambilData();
 </script>
+
 </body>
 </html>
