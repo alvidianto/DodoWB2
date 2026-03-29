@@ -3,15 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DodoWB FINAL</title>
+<title>DodoWB FULL</title>
 
 <style>
-body {font-family:sans-serif;margin:0;background:#f5f5f5;}
-.header {padding:15px;background:#222;color:#fff;}
-.container {padding:15px;max-width:600px;margin:auto;}
-.item {background:#fff;padding:15px;margin-bottom:10px;border-radius:10px;cursor:pointer;}
-.viewer {display:none;position:fixed;inset:0;background:#fff;padding:20px;overflow:auto;}
-input {width:100%;padding:10px;margin-bottom:10px;}
+body{font-family:sans-serif;margin:0;background:#f5f5f5}
+.header{padding:15px;background:#222;color:#fff}
+.container{padding:15px;max-width:600px;margin:auto}
+
+.form{background:#fff;padding:15px;border-radius:10px;margin-bottom:20px}
+.form input,.form textarea{width:100%;padding:10px;margin-bottom:10px}
+
+.item{background:#fff;padding:15px;margin-bottom:10px;border-radius:10px;cursor:pointer}
+
+.viewer{display:none;position:fixed;inset:0;background:#fff;padding:20px;overflow:auto}
 </style>
 </head>
 
@@ -20,10 +24,26 @@ input {width:100%;padding:10px;margin-bottom:10px;}
 <div class="header">DodoWB</div>
 
 <div class="container">
-<input id="cari" placeholder="Cari..." onkeyup="filter()">
-<div id="list"></div>
+
+<!-- FORM INPUT -->
+<div class="form">
+<h3>Tambah Cerita</h3>
+<input id="fJudul" placeholder="Judul">
+<input id="fFoto" placeholder="Link Foto">
+<input id="fKategori" placeholder="Kategori">
+<textarea id="fIsi" placeholder="Isi cerita"></textarea>
+<button onclick="kirim()">Kirim</button>
 </div>
 
+<!-- SEARCH -->
+<input id="cari" placeholder="Cari..." onkeyup="filter()">
+
+<!-- LIST -->
+<div id="list"></div>
+
+</div>
+
+<!-- VIEW -->
 <div id="view" class="viewer">
 <button onclick="tutup()">⬅ Kembali</button>
 <h1 id="jdl"></h1>
@@ -34,6 +54,9 @@ input {width:100%;padding:10px;margin-bottom:10px;}
 
 <script>
 const URL = "https://docs.google.com/spreadsheets/d/16Mh5Ql0LTROIsZgdTQtsWNZPcSAR86SvYJO863a5KkQ/gviz/tq?tqx=out:json";
+
+// GANTI ENTRY SESUAI FORM LO
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeRPxSrI-wX6jBW9ewALLLSwrBdOMjWH6jqTG2DEoGctCSx6g/formResponse";
 
 let db=[];
 
@@ -70,6 +93,31 @@ html+=`
 list.innerHTML=html;
 }
 
+// ================= KIRIM FORM =================
+function kirim(){
+let judul=fJudul.value;
+let foto=fFoto.value;
+let isi=fIsi.value;
+let kategori=fKategori.value;
+
+let data=new FormData();
+
+// ❗ INI HARUS LO GANTI SESUAI FORM LO
+data.append("entry.1111111111", judul);
+data.append("entry.2222222222", foto);
+data.append("entry.3333333333", isi);
+data.append("entry.4444444444", kategori);
+
+fetch(FORM_URL,{
+method:"POST",
+mode:"no-cors",
+body:data
+});
+
+alert("Terkirim!");
+location.reload();
+}
+
 // ================= BUKA =================
 function buka(i){
 let x=db[i];
@@ -100,7 +148,7 @@ let url=location.href;
 navigator.share?navigator.share({url}):alert(url);
 }
 
-// ================= OPEN URL =================
+// ================= URL =================
 function bukaURL(){
 let id=new URLSearchParams(location.search).get("id");
 if(id!==null && db[id]) buka(id);
